@@ -34,11 +34,10 @@
   </header>
   <section class="search">
     <div class="container search__container">
-      <h1 class="search__title">Keling brat, qaysi kinoni qidiramiz?😉</h1>
+      <h1 class="search__title">Keling brat, qaysi kinoni qidiramiz?</h1>
       <form class="search__form" action="#" method="get">
         <input class="search__form-input" type="text" name="q" aria-label="Input search"
-          placeholder="Qaysi kinoni qidiramiz...">
-
+          placeholder="Qaysi kinoni qidiramiz..." autocomplete="off">
         <select class="search__form-select" name="genres" id="year">
           <option class="search__form-select-option" value="" disabled selected>Kategoriya</option>
           <option class="search__form-select-option" value="jangari">Jangari</option>
@@ -53,8 +52,44 @@
       </form>
     </div>
   </section>
+  <section class="movies">
+    <div class="container movies__container">
+      <h2 class="movies__title">Eng kop ko'rilgan kinolar</h2>
+      <ul class="movies__list">
+        <li class="movies__item movie">
+          <button class="movie__details-bookmark" type="button">
+            <img class="movie__details-bookmark-img" src="/img/bookmark-simple.svg" alt="Bookmark img" width="18"
+              height="18">
+            <span class="movie__details-bookmark-desc">Bookmark Movie</span>
+          </button>
+          <a href="#" class="movie__link">
+            <div class="movie__inner">
+              <img class="movie__img" src="/img/JANG.jfif" alt="Jang rasmi" width="200" height="320">
+              <span class="movie__status">Top film</span>
+              <div class="movie__details">
+                <div class="movie__rating">
+                  <div class="movie__rating-stars">
+                    <div class="movie__rating-star"></div>
+                    <!-- <div class="movie__rating-empty"></div> -->
+                  </div>
+                  <span class="movie__rating-count">6.7</span>
+                </div>
+                <p class="movie__date-text">Chiqarilgan: <time class="movie__date" datetime="01.01.2020">2020</time>
+                  yil
+                </p>
+                <p class="movie__language-text">Til: <span class="movie__language">English</span></p>
+                <p class="movie__duration-text"><span class="movie__duration">92</span> minut</p>
+              </div>
+            </div>
+            <div class="movie__title-wrapper">
+              <p class="movie__title">Jangdagi askarlar</p>
+            </div>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-  <script src="/js/kinolar.js"></script>
+  <script src="/js/movies.js"></script>
   <script src="/js/app.js"></script>
 </body>
 
