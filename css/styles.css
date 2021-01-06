@@ -190,19 +190,27 @@ img {
 }
 /* movies section */
 .movies {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .container {
 }
 .movies__container {
 }
 .movies__title {
+  display: flex;
+  align-items: center;
   margin-top: 0;
   margin-bottom: 40px;
   font-size: 26px;
   color: #fff;
   text-align: left;
+}
+.movies__count{
+  margin-left: 5px;
+  margin-right: 5px;
+  font-weight: 700;
+  color: #ff47f0;
 }
 .movies__list {
   display: flex;
@@ -214,10 +222,12 @@ img {
   list-style-type: none;
 }
 .movies__item {
-  max-width: 212px;
+  max-width: 200px;
   width: 100%;
   margin-right: 10px;
   margin-left: 10px;
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
 
 .movie {
@@ -246,7 +256,7 @@ img {
 .movie__img {
   max-width: 100%;
   width: 100%;
-  height: 320px;
+  height: 280px;
   display: block;
   object-fit: cover;
 }
@@ -274,7 +284,7 @@ img {
   overflow: hidden;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 18px;
+  font-size: 15px;
   color: #fff;
   font-weight: 500;
 }
@@ -305,7 +315,16 @@ img {
   border: none;
   background-color: transparent;
   transition: transform 0.2s ease;
+  width: 20px;
+  height: 20px;
+  background-image: url("/img/bookmark-simple.svg");
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
   cursor: pointer;
+}
+.movie__details-bookmark--clicked{
+  background-image: url("/img/bookmark-full.svg");
 }
 .movie__details-bookmark:hover {
   transform: scale(1.1);
@@ -331,7 +350,7 @@ img {
 }
 .movie__rating-star {
   height: 100%;
-  width: 67%;
+  width: 100%;
   background-image: url("/img/star-full.svg");
   background-size: 20px 30px;
 }
@@ -373,4 +392,11 @@ img {
 .movie__duration {
   display: block;
   margin-right: 4px;
+}
+.loading{
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #fff;
+  font-weight: 500;
+  font-size: 18px;
 }
