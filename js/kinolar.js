@@ -5,7 +5,8 @@
 //     movieYear: kino.movie_year,
 //     categories: kino.Categories.split("|"),
 //     summary: kino.summary,
-//     imageURL: kino.ImageURL,
+//     bigImageUrl: getBigImgMovie(kino.ytid),
+//     smallImageUrl: getSmallImgMovie(kino.ytid),
 //     imdbId: kino.imdb_id,
 //     imdbRating: kino.imdb_rating,
 //     runtime: kino.runtime,
@@ -13,7 +14,6 @@
 //     youtubeId: kino.ytid,
 //   };
 // });
-// console.log(newKinolar);
 /*{
   "Title": "And Then I Go",
   "fulltitle": "And Then I Go (2017)",

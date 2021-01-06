@@ -16,6 +16,9 @@ let createElement = function (element, elementClass, text) {
   }
   return newElement;
 };
+let getSmallImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
+let getBigImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
+
 
 // set megin top on tablet and mobile mode
 document.body.style.marginTop =
@@ -81,8 +84,7 @@ movies.forEach((movie) => {
 });
 renderCategoryOptions(optionsArray);
 
-let getSmallImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
-let getBigImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
+
 
 let searchMovie = (text, category, year) => {
   let textReg = new RegExp(text, "i");
@@ -120,7 +122,7 @@ let renderMovies = (renderArray, elCount, elLoading, elListForAppend) => {
       });
       $_(".movie__details-bookmark", elMovieTemplateClone).dataset.videoId =
         movie.imdbId;
-      $_(".movie__img", elMovieTemplateClone).src = getSmallImgMovie(movie.youtubeId);
+      $_(".movie__img", elMovieTemplateClone).src = movie.smallImageUrl;
       $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRatving >= topMovie ? "Top film" : "oddiy";
       $_(".movie__rating-star", elMovieTemplateClone).style.width = `${movie.imdbRating * 10}%`;
       $_(".movie__rating-count", elMovieTemplateClone).textContent = movie.imdbRating;
