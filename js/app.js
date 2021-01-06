@@ -89,21 +89,9 @@ renderCategoryOptions(optionsArray);
 let searchMovie = (text, category, year) => {
   let textReg = new RegExp(text, "i");
   let newArray = movies.filter((movie) => {
-    if (text && year && category) {
-      return movie.fullTitle.match(textReg) && movie.movieYear === Number(year) && movie.categories.includes(category);
-    } if (year && category) {
-      return movie.movieYear === Number(year) && movie.categories.includes(category);
-    } if (text && category) {
-      return movie.categories.includes(category) && movie.fullTitle.match(textReg);
-    } if (text && year) {
-      return movie.fullTitle.match(textReg) && movie.movieYear === Number(year);
-    } if (text) {
-      return movie.fullTitle.match(textReg);
-    } if (year) {
-      return movie.movieYear === Number(year);
-    } if (category) {
-      return movie.categories.includes(category);
-    }
+    let matchCategory = category === "all" || movie.categories.includes(category)
+    let matchYear = year ? movie.movieYear === Number(year) : true;
+    return movie.fullTitle.match(textReg) && matchYear && matchCategory;
   });
   return newArray;
 };
