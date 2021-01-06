@@ -81,6 +81,9 @@ movies.forEach((movie) => {
 });
 renderCategoryOptions(optionsArray);
 
+let getSmallImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
+let getBigImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
+
 let searchMovie = (text, category, year) => {
   let textReg = new RegExp(text, "i");
   let newArray = movies.filter((movie) => {
@@ -117,8 +120,8 @@ let renderMovies = (renderArray, elCount, elLoading, elListForAppend) => {
       });
       $_(".movie__details-bookmark", elMovieTemplateClone).dataset.videoId =
         movie.imdbId;
-      $_(".movie__img", elMovieTemplateClone).src = `https://picsum.photos/200/320?random=${index}`;
-      $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRating >= topMovie ? "Top film" : "oddiy";
+      $_(".movie__img", elMovieTemplateClone).src = getSmallImgMovie(movie.youtubeId);
+      $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRatving >= topMovie ? "Top film" : "oddiy";
       $_(".movie__rating-star", elMovieTemplateClone).style.width = `${movie.imdbRating * 10}%`;
       $_(".movie__rating-count", elMovieTemplateClone).textContent = movie.imdbRating;
       $_(".movie__date", elMovieTemplateClone).textContent = movie.movieYear;
