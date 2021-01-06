@@ -35,10 +35,31 @@ let elMoviesBookmarksCount = $_(".js-movies__count-bookmarks");
 let elMoviesSearchLoading = $_(".loading");
 let elMoviesBookmarksLoading = $_(".loading-bookmarks");
 let elMoviesBookmarkButton = $_(".header__bookmark");
+let elMoviesBookmarkCount = $_(".header__bookmark-count");
 let elMovieTemplate = $_(".movie-template").content;
 
+const bookmarkVideosLocalStorage = JSON.parse(localStorage.getItem("bookmarkMovies"));
+
 let searchedMovies = [];
-let bookmarkVideos = [];
+let bookmarkVideos = bookmarkVideosLocalStorage || [];
+
+
+let updateBookmarkCaunt = () => {
+  elMoviesBookmarkCount.textContent = bookmarkVideos.length;
+};
+
+updateBookmarkCaunt()
+
+let addBookmarkVideo = (video) => {
+  bookmarkVideos.push(video)
+  localStorage.setItem("bookmarkMovies", JSON.stringify(bookmarkVideos));
+  updateBookmarkCaunt()
+}
+let removeBookmarkVideo = (index) => {
+  bookmarkVideos.splice(index, 1)
+  localStorage.setItem("bookmarkMovies", JSON.stringify(bookmarkVideos));
+  updateBookmarkCaunt()
+}
 
 let renderCategoryOptions = (arr) => {
   let optionFragment = document.createDocumentFragment();
@@ -68,25 +89,24 @@ let searchMovie = (text, category, year) => {
     } else if (year) {
       return movie.movieYear === Number(year);
     } else if (category) {
-      movie.categories.forEach((categoryMov) => {
-        return categoryMov == category;
-      });
+      return movie.categories.includes(category);
     }
   });
   return newArray;
 };
 const topMovie = 7.6;
-let renderMovies = (arr, count, loading, list) => {
-  loading.textContent = "loading...";
-  list.innerHTML = "";
-  count.textContent = "...";
+
+let renderMovies = (renderArray, elCount, elLoading, elListForAppend) => {
+  elLoading.textContent = "loading...";
+  elListForAppend.innerHTML = "";
+  elCount.textContent = "...";
   setTimeout(() => {
-    loading.textContent = "";
-    count.textContent =
-      arr.length === 0 ? "Topilmadi :(" : `${arr.length} ta`;
+    elLoading.textContent = "";
+    elCount.textContent =
+      renderArray.length === 0 ? "Topilmadi :(" : `${renderArray.length} ta`;
     let elMovieListFragment = document.createDocumentFragment();
 
-    arr.forEach((movie, index) => {
+    renderArray.forEach((movie, index) => {
       let elMovieTemplateClone = elMovieTemplate.cloneNode(true);
       bookmarkVideos.forEach((bookmarkVideo) => {
         if (bookmarkVideo.imdbId === movie.imdbId) {
@@ -107,21 +127,20 @@ let renderMovies = (arr, count, loading, list) => {
       $_(".movie__title", elMovieTemplateClone).textContent = movie.title;
       elMovieListFragment.appendChild(elMovieTemplateClone);
     });
-    elMoviesSearchList.appendChild(elMovieListFragment);
+    elListForAppend.appendChild(elMovieListFragment);
   }, 800);
 };
-let bookmarkVideo = (searchArray, bookmarkButton) => {
-  searchArray.forEach((movie) => {
+let bookmarkVideo = (loopArray, bookmarkButton) => {
+  loopArray.forEach((movie) => {
     if (movie.imdbId === bookmarkButton.dataset.videoId) {
       let isExsist = bookmarkVideos.findIndex((bookmarkVideo) => {
         return bookmarkVideo.imdbId === movie.imdbId;
       });
-      console.log(isExsist);
       if (isExsist === -1) {
-        bookmarkVideos.push(movie);
+        addBookmarkVideo(movie)
         bookmarkButton.classList.add("movie__details-bookmark--clicked");
       } else {
-        bookmarkVideos.splice(isExsist, 1);
+        removeBookmarkVideo(isExsist)
         bookmarkButton.classList.remove("movie__details-bookmark--clicked");
       }
     }
@@ -140,7 +159,6 @@ elSearchForm.addEventListener("submit", (evt) => {
   renderMovies(searchedMovies, elMoviesCountSearch, elMoviesSearchLoading, elMoviesSearchList);
 });
 
-// elMoviesSearchList.addEventListener("click", (evt) => { });
 
 elMoviesSearchList.addEventListener("click", (evt) => {
   if (evt.target.matches(".movie__details-bookmark")) {
@@ -152,8 +170,10 @@ elMoviesBookmarkButton.addEventListener("click", (evy) => {
   elMoviesBookmarks.classList.remove("visually-hidden")
   renderMovies(bookmarkVideos, elMoviesBookmarksCount, elMoviesBookmarksLoading, elMoviesBookmarksList);
 })
-// elMoviesBookmarksList.addEventListener("click", (evt) => {
-//   if (evt.target.matches(".movie__details-bookmark")) {
-//     bookmarkVideo(searchedMovies, evt.target);
-//   }
-// });
+
+elMoviesBookmarksList.addEventListener("click", (evt) => {
+  if (evt.target.matches(".movie__details-bookmark")) {
+    bookmarkVideo(bookmarkVideos, evt.target);
+    renderMovies(bookmarkVideos, elMoviesBookmarksCount, elMoviesBookmarksLoading, elMoviesBookmarksList);
+  }
+});
