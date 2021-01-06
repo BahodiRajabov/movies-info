@@ -89,11 +89,19 @@ renderCategoryOptions(optionsArray);
 let searchMovie = (text, category, year) => {
   let textReg = new RegExp(text, "i");
   let newArray = movies.filter((movie) => {
-    if (text) {
+    if (text && year && category) {
+      return movie.fullTitle.match(textReg) && movie.movieYear === Number(year) && movie.categories.includes(category);
+    } if (year && category) {
+      return movie.movieYear === Number(year) && movie.categories.includes(category);
+    } if (text && category) {
+      return movie.categories.includes(category) && movie.fullTitle.match(textReg);
+    } if (text && year) {
+      return movie.fullTitle.match(textReg) && movie.movieYear === Number(year);
+    } if (text) {
       return movie.fullTitle.match(textReg);
-    } else if (year) {
+    } if (year) {
       return movie.movieYear === Number(year);
-    } else if (category) {
+    } if (category) {
       return movie.categories.includes(category);
     }
   });
@@ -123,7 +131,7 @@ let renderMovies = (renderArray, elCount, elLoading, elListForAppend) => {
       $_(".movie__details-bookmark", elMovieTemplateClone).dataset.videoId =
         movie.imdbId;
       $_(".movie__img", elMovieTemplateClone).src = movie.smallImageUrl;
-      $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRatving >= topMovie ? "Top film" : "oddiy";
+      $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRating >= topMovie ? "Top film" : "oddiy";
       $_(".movie__rating-star", elMovieTemplateClone).style.width = `${movie.imdbRating * 10}%`;
       $_(".movie__rating-count", elMovieTemplateClone).textContent = movie.imdbRating;
       $_(".movie__date", elMovieTemplateClone).textContent = movie.movieYear;
