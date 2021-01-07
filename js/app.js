@@ -16,6 +16,7 @@ let createElement = function (element, elementClass, text) {
   }
   return newElement;
 };
+
 let getSmallImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
 let getBigImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
 
@@ -95,6 +96,7 @@ movies.forEach((movie) => {
     }
   });
 });
+
 renderCategoryOptions(optionsArray);
 
 
@@ -146,8 +148,6 @@ let renderMovies = (moviesArray, elList) => {
       }
     });
     $_(".movie__details-bookmark", elMovieTemplateClone).dataset.videoId = movie.imdbId;
-    movieLink.dataset.videoId = movie.imdbId;
-    movieLink.href = `/${movie.imdbId}`;
     $_(".movie__img", elMovieTemplateClone).src = movie.smallImageUrl;
     $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRating >= topMovie ? "Top film" : "oddiy";
     $_(".movie__rating-star", elMovieTemplateClone).style.width = `${movie.imdbRating * 10}%`;
@@ -157,9 +157,9 @@ let renderMovies = (moviesArray, elList) => {
     $_(".movie__duration", elMovieTemplateClone).textContent = movie.runtime;
     $_(".movie__title", elMovieTemplateClone).textContent = movie.title;
 
+
     movieLink.addEventListener("click", (evt) => {
       evt.preventDefault()
-      console.log(evt.target);
       openModalMovie(searchedMovies, movieLink);
     })
     elMovieListFragment.appendChild(elMovieTemplateClone);
@@ -182,6 +182,7 @@ let toggleMarkVideo = (loopArray, bookmarkButton) => {
     }
   });
 };
+// Events
 
 elSearchForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -196,6 +197,15 @@ elSearchForm.addEventListener("submit", (evt) => {
   renderMovies(searchedMovies, elMoviesSearchList);
 });
 
+//bookmark button nav
+
+elMoviesBookmarkButton.addEventListener("click", (evy) => {
+  elMoviesSearch.classList.add("visually-hidden")
+  elMoviesBookmarks.classList.remove("visually-hidden")
+  renderMovies(bookmarkVideos, elMoviesBookmarksList);
+  countOfResult(elMoviesBookmarksCount, bookmarkVideos)
+})
+
 // bosilganni oldigan
 elModalMovie.addEventListener("click", (evt) => {
   if (evt.currentTarget === evt.target) {
@@ -209,21 +219,14 @@ elMoviesSearchList.addEventListener("click", (evt) => {
     toggleMarkVideo(searchedMovies, evt.target);
   }
 });
-//bookmark button nav
 
-elMoviesBookmarkButton.addEventListener("click", (evy) => {
-  elMoviesSearch.classList.add("visually-hidden")
-  elMoviesBookmarks.classList.remove("visually-hidden")
-  countOfResult(elMoviesBookmarksCount, bookmarkVideos)
-  renderMovies(bookmarkVideos, elMoviesBookmarksList);
-})
 
 // mark button movie
 
 elMoviesBookmarksList.addEventListener("click", (evt) => {
   if (evt.target.matches(".movie__details-bookmark")) {
     toggleMarkVideo(bookmarkVideos, evt.target);
-    countOfResult(elMoviesBookmarksCount, bookmarkVideos)
     renderMovies(bookmarkVideos, elMoviesBookmarksList);
+    countOfResult(elMoviesBookmarksCount, bookmarkVideos)
   }
 });
