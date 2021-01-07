@@ -132,41 +132,35 @@ let openModalMovie = (searchingArray, movieCliked) => {
   }
 }
 
-const topMovie = 7.6;
-
-let renderMovies = (moviesArray, elList) => {
-  elList.innerHTML = "";
-  let elMovieListFragment = document.createDocumentFragment();
-  moviesArray.forEach((movie, index) => {
-    let elMovieTemplateClone = elMovieTemplate.cloneNode(true);
-    let movieLink = $_(".movie__link", elMovieTemplateClone)
-    bookmarkVideos.forEach((bookmarkVideo) => {
-      if (bookmarkVideo.imdbId === movie.imdbId) {
-        $_(".movie__details-bookmark", elMovieTemplateClone).classList.add(
-          "movie__details-bookmark--clicked"
-        );
-      }
-    });
-    $_(".movie__details-bookmark", elMovieTemplateClone).dataset.videoId = movie.imdbId;
-    $_(".movie__img", elMovieTemplateClone).src = movie.smallImageUrl;
-    $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRating >= topMovie ? "Top film" : "oddiy";
-    $_(".movie__rating-star", elMovieTemplateClone).style.width = `${movie.imdbRating * 10}%`;
-    $_(".movie__rating-count", elMovieTemplateClone).textContent = movie.imdbRating;
-    $_(".movie__date", elMovieTemplateClone).textContent = movie.movieYear;
-    $_(".movie__language", elMovieTemplateClone).textContent = movie.language;
-    $_(".movie__duration", elMovieTemplateClone).textContent = movie.runtime;
-    $_(".movie__title", elMovieTemplateClone).textContent = movie.title;
-
-
-    movieLink.addEventListener("click", (evt) => {
-      evt.preventDefault()
-      openModalMovie(searchedMovies, movieLink);
-    })
-    elMovieListFragment.appendChild(elMovieTemplateClone);
+const topMovie = 8;
+let createCardMovie = (movie) => {
+  let elMovieTemplateClone = elMovieTemplate.cloneNode(true);
+  let movieLink = $_(".movie__link", elMovieTemplateClone)
+  bookmarkVideos.forEach((bookmarkVideo) => {
+    if (bookmarkVideo.imdbId === movie.imdbId) {
+      $_(".movie__details-bookmark", elMovieTemplateClone).classList.add(
+        "movie__details-bookmark--clicked"
+      );
+    }
   });
-  elList.appendChild(elMovieListFragment);
+  $_(".movie__details-bookmark", elMovieTemplateClone).dataset.videoId = movie.imdbId;
+  $_(".movie__img", elMovieTemplateClone).src = movie.smallImageUrl;
+  $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRating >= topMovie ? "Top film" : "oddiy";
+  $_(".movie__rating-star", elMovieTemplateClone).style.width = `${movie.imdbRating * 10}%`;
+  $_(".movie__rating-count", elMovieTemplateClone).textContent = movie.imdbRating;
+  $_(".movie__date", elMovieTemplateClone).textContent = movie.movieYear;
+  $_(".movie__language", elMovieTemplateClone).textContent = movie.language;
+  $_(".movie__duration", elMovieTemplateClone).textContent = movie.runtime;
+  $_(".movie__title", elMovieTemplateClone).textContent = movie.title;
+
+  movieLink.addEventListener("click", (evt) => {
+    evt.preventDefault()
+    openModalMovie(searchedMovies, movieLink);
+  });
+
+  return elMovieTemplateClone;
 };
-let toggleMarkVideo = (loopArray, bookmarkButton) => {
+let toggleBookmarkMovie = (loopArray, bookmarkButton) => {
   loopArray.forEach((movie) => {
     if (movie.imdbId === bookmarkButton.dataset.videoId) {
       let searchedMovieIndex = bookmarkVideos.findIndex((bookmarkVideo) => {
@@ -182,8 +176,17 @@ let toggleMarkVideo = (loopArray, bookmarkButton) => {
     }
   });
 };
-// Events
 
+let displayMovies = (moviesArray, displayList) => {
+  displayList.innerHTML = "";
+  let elMovieListFragment = document.createDocumentFragment();
+  moviesArray.forEach((movie) => {
+    elMovieListFragment.appendChild(createCardMovie(movie))
+  })
+  displayList.appendChild(elMovieListFragment)
+}
+
+// Events
 elSearchForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   searchedMovies = searchMovie(
@@ -193,40 +196,38 @@ elSearchForm.addEventListener("submit", (evt) => {
   );
   elMoviesSearch.classList.remove("visually-hidden")
   elMoviesBookmarks.classList.add("visually-hidden")
+  displayMovies(searchedMovies, elMoviesSearchList);
   countOfResult(elMoviesCountSearch, searchedMovies)
-  renderMovies(searchedMovies, elMoviesSearchList);
 });
 
-//bookmark button nav
-
+//bookmark button nav bosilgandagi funcksuya
 elMoviesBookmarkButton.addEventListener("click", (evy) => {
   elMoviesSearch.classList.add("visually-hidden")
   elMoviesBookmarks.classList.remove("visually-hidden")
-  renderMovies(bookmarkVideos, elMoviesBookmarksList);
+  displayMovies(bookmarkVideos, elMoviesBookmarksList);
   countOfResult(elMoviesBookmarksCount, bookmarkVideos)
 })
 
-// bosilganni oldigan
+// Modal bosilganda quloq soluvchi funksiya
 elModalMovie.addEventListener("click", (evt) => {
   if (evt.currentTarget === evt.target) {
     elModalMovie.classList.remove("modal--open");
   }
 })
 
+// Poisk qilganda chiqadigan ul ichidagi bookmark button bosilgandagi funcksuya,
 elMoviesSearchList.addEventListener("click", (evt) => {
   if (evt.target.matches(".movie__details-bookmark")) {
     countOfResult(elMoviesCountSearch, searchedMovies)
-    toggleMarkVideo(searchedMovies, evt.target);
+    toggleBookmarkMovie(searchedMovies, evt.target);
   }
 });
 
-
-// mark button movie
-
+// Bookmark pageidagi ul ichidagi bookmark button bosilgandagi funcksuya,
 elMoviesBookmarksList.addEventListener("click", (evt) => {
   if (evt.target.matches(".movie__details-bookmark")) {
-    toggleMarkVideo(bookmarkVideos, evt.target);
-    renderMovies(bookmarkVideos, elMoviesBookmarksList);
+    toggleBookmarkMovie(bookmarkVideos, evt.target);
+    displayMovies(bookmarkVideos, elMoviesBookmarksList);
     countOfResult(elMoviesBookmarksCount, bookmarkVideos)
   }
 });
