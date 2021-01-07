@@ -41,6 +41,17 @@ let elMoviesBookmarkButton = $_(".header__bookmark");
 let elMoviesBookmarkCount = $_(".header__bookmark-count");
 let elMovieTemplate = $_(".movie-template").content;
 
+// Modal elements
+let elModalMovie = $_(".modal")
+let elModalMovieVideo = $_(".modal__inner-video")
+let elModalMovietitle = $_(".js-modal-info__title")
+let elModalStars = $_(".js-movie__rating-star-modal")
+let elModalStarsRating = $_(".js-movie__rating-count-modal")
+let elModalMovieLanguage = $_(".js-modal-info__language")
+let elModalMovieCategoryList = $_(".js-modal-info__categories-list")
+let elModalMovieYear = $_(".js-modal-info__year")
+let elModalMovieSummary = $_(".js-modal-info__summary")
+
 const bookmarkVideosLocalStorage = JSON.parse(localStorage.getItem("bookmarkMovies"));
 
 let searchedMovies = [];
@@ -95,6 +106,29 @@ let searchMovie = (text, category, year) => {
   });
   return newArray;
 };
+
+// madal ochadi
+let openModalMovie = (searchingArray, movieCliked) => {
+  let searchedMovie = searchingArray.find((movie) => movie.imdbId === movieCliked.dataset.videoId);
+  if (searchedMovie) {
+    elModalMovieCategoryList.innerHTML = ""
+    elModalMovieVideo.src = `https://www.youtube.com/embed/${searchedMovie.youtubeId}`
+    elModalMovietitle.textContent = searchedMovie.fullTitle;
+    elModalStars.style.width = `${searchedMovie.imdbRating * 10}%`;
+    elModalStarsRating.textContent = searchedMovie.imdbRating;
+    elModalMovieLanguage.textContent = searchedMovie.language;
+    let modalMovieCategoryFragment = document.createDocumentFragment()
+    searchedMovie.categories.forEach((category) => {
+      let categoryItem = createElement("li", "modal-info__categories-item", category)
+      modalMovieCategoryFragment.appendChild(categoryItem)
+    })
+    elModalMovieCategoryList.appendChild(modalMovieCategoryFragment)
+    elModalMovieYear.textContent = searchedMovie.movieYear;
+    elModalMovieSummary.textContent = searchedMovie.summary || "No sammery has written";
+    elModalMovie.classList.add("modal--open")
+  }
+}
+
 const topMovie = 7.6;
 
 let renderMovies = (renderArray, elCount, elLoading, elListForAppend) => {
@@ -109,6 +143,7 @@ let renderMovies = (renderArray, elCount, elLoading, elListForAppend) => {
 
     renderArray.forEach((movie, index) => {
       let elMovieTemplateClone = elMovieTemplate.cloneNode(true);
+      let movieLink = $_(".movie__link", elMovieTemplateClone)
       bookmarkVideos.forEach((bookmarkVideo) => {
         if (bookmarkVideo.imdbId === movie.imdbId) {
           $_(".movie__details-bookmark", elMovieTemplateClone).classList.add(
@@ -116,8 +151,9 @@ let renderMovies = (renderArray, elCount, elLoading, elListForAppend) => {
           );
         }
       });
-      $_(".movie__details-bookmark", elMovieTemplateClone).dataset.videoId =
-        movie.imdbId;
+      $_(".movie__details-bookmark", elMovieTemplateClone).dataset.videoId = movie.imdbId;
+      movieLink.dataset.videoId = movie.imdbId;
+      movieLink.href = `/${movie.imdbId}`;
       $_(".movie__img", elMovieTemplateClone).src = movie.smallImageUrl;
       $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRating >= topMovie ? "Top film" : "oddiy";
       $_(".movie__rating-star", elMovieTemplateClone).style.width = `${movie.imdbRating * 10}%`;
@@ -126,6 +162,13 @@ let renderMovies = (renderArray, elCount, elLoading, elListForAppend) => {
       $_(".movie__language", elMovieTemplateClone).textContent = movie.language;
       $_(".movie__duration", elMovieTemplateClone).textContent = movie.runtime;
       $_(".movie__title", elMovieTemplateClone).textContent = movie.title;
+
+      movieLink.addEventListener("click", (evt) => {
+        evt.preventDefault()
+        console.log(evt.target);
+        openModalMovie(searchedMovies, movieLink);
+      })
+
       elMovieListFragment.appendChild(elMovieTemplateClone);
     });
     elListForAppend.appendChild(elMovieListFragment);
@@ -160,12 +203,20 @@ elSearchForm.addEventListener("submit", (evt) => {
   renderMovies(searchedMovies, elMoviesCountSearch, elMoviesSearchLoading, elMoviesSearchList);
 });
 
+// bosilganni oldigan
+elModalMovie.addEventListener("click", (evt) => {
+  if (evt.currentTarget === evt.target) {
+    elModalMovie.classList.remove("modal--open");
+  }
+})
 
 elMoviesSearchList.addEventListener("click", (evt) => {
   if (evt.target.matches(".movie__details-bookmark")) {
     bookmarkVideo(searchedMovies, evt.target);
   }
 });
+
+
 elMoviesBookmarkButton.addEventListener("click", (evy) => {
   elMoviesSearch.classList.add("visually-hidden")
   elMoviesBookmarks.classList.remove("visually-hidden")

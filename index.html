@@ -39,7 +39,7 @@
         <input class="search__form-input js-search__form-input" type="text" name="q" aria-label="Input search"
           placeholder="Qaysi kinoni qidiramiz..." autocomplete="off">
         <select class="search__form-select js-search__form-select" name="genres" id="year">
-          <option class="search__form-select-option" value="all" disabled selected>Kategoriya</option>
+          <option class="search__form-select-option" value="all" selected>All category</option>
           <!-- <option class="search__form-select-option" value="jangari">Jangari</option> -->
         </select>
 
@@ -50,6 +50,14 @@
           <img class="header__bookmark-img" src="/img/search.svg" alt="Search img" width="24" height="24">
           <!-- yil, kategoriya, features, -->
       </form>
+      <!-- <select class="form-control js-search-form__sort-select" name="sort" aria-label="Sorting">
+                    <option value="rating_desc" selected>Rating (high to low)</option>
+                    <option value="rating_asc">Rating (low to high)</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                    <option value="year_desc">Year (new to old)</option>
+                    <option value="year_asc">Year (old to new)</option>
+                  </select> -->
     </div>
   </section>
   <section class="movies js-movies-search visually-hidden">
@@ -97,6 +105,43 @@
         </div>
     </li>
   </template>
+  <section class="modal">
+    <div class="modal__inner">
+      <iframe class="modal__inner-video" width="760" height="360" src="https://www.youtube.com/embed/sW9npZVpiMI"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+      <div class="modal__inner-info modal-info">
+        <h3 class="modal-info__title js-modal-info__title">Avengers: Age of Ultron (2020)</h3>
+        <div class="modal-info__inner">
+          <div class="modal-info__left">
+            <div class="movie__rating">
+              <div class="movie__rating-stars movie__rating-stars-modal">
+                <div class="movie__rating-star movie__rating-star-modal js-movie__rating-star-modal"></div>
+              </div>
+              <span class="movie__rating-count movie__rating-count-modal js-movie__rating-count-modal">6.7</span>
+            </div>
+            <p class="modal-info__language-text">Language: <span
+                class="modal-info__language js-modal-info__language">English</span></p>
+            <div class="modal-info__categories">
+              <p class="modal-info__categories-text">Categories:</p>
+              <ul class="modal-info__categories-list js-modal-info__categories-list">
+                <!-- <li class="modal-info__categories-item">Categories</li> -->
+              </ul>
+            </div>
+            <p class="modal-info__year-text">Realesed year: <span
+                class="modal-info__year js-modal-info__year">2019</span></p>
+          </div>
+          <p class="modal-info__summary js-modal-info__summary">
+            Patton Oswald, despite a personal tragedy, produces his best standup yet. Focusing on the tribulations of
+            the Trump era and life after the loss of a loved one, Patton Oswald continues his journey to contribute joy
+            to the world.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
   <script src="/js/movies.js"></script>
   <script src="/js/app.js"></script>
 </body>

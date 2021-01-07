@@ -1,7 +1,7 @@
 const movies = [
   {
     "title": "Patton Oswalt: Annihilation",
-    "fullTitle": "Patton Oswalt: Annihilation (2017)",
+    "fullTitle": "Patton Oswalt: Annihilation (20107)",
     "movieYear": 2017,
     "categories": [
       "Uncategorized"
