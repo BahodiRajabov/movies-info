@@ -100,9 +100,10 @@ renderCategoryOptions(optionsArray);
 let searchMovie = (text, category, year) => {
   let textReg = new RegExp(text, "i");
   let newArray = movies.filter((movie) => {
+    // console.log(movie.title);
     let matchCategory = category === "all" || movie.categories.includes(category)
     let matchYear = year ? movie.movieYear === Number(year) : true;
-    return movie.fullTitle.match(textReg) && matchYear && matchCategory;
+    return movie.title.toString().match(textReg) && matchYear && matchCategory;
   });
   return newArray;
 };
