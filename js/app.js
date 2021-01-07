@@ -152,7 +152,8 @@ let createCardMovie = (movie) => {
   $_(".movie__language", elMovieTemplateClone).textContent = movie.language;
   $_(".movie__duration", elMovieTemplateClone).textContent = movie.runtime;
   $_(".movie__title", elMovieTemplateClone).textContent = movie.title;
-
+  movieLink.dataset.videoId = movie.imdbId;
+  movieLink.href = `/${movie.imdbId}`;
   movieLink.addEventListener("click", (evt) => {
     evt.preventDefault()
     openModalMovie(searchedMovies, movieLink);
