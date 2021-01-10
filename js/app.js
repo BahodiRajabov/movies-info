@@ -1,25 +1,3 @@
-let $_ = function (selector, node = document) {
-  return node.querySelector(selector);
-};
-
-let $$_ = function (selector, node = document) {
-  return node.querySelectorAll(selector);
-};
-
-let createElement = function (element, elementClass, text) {
-  let newElement = document.createElement(element);
-  if (elementClass) {
-    newElement.setAttribute("class", elementClass);
-  }
-  if (text) {
-    newElement.textContent = text;
-  }
-  return newElement;
-};
-
-let getSmallImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
-let getBigImgMovie = (youtubeId) => `http://i3.ytimg.com/vi/${youtubeId}/hqdefault.jpg`
-
 
 // set megin top on tablet and mobile mode
 document.body.style.marginTop =
@@ -164,9 +142,7 @@ let createCardMovie = (movie) => {
 let toggleBookmarkMovie = (loopArray, bookmarkButton) => {
   loopArray.forEach((movie) => {
     if (movie.imdbId === bookmarkButton.dataset.videoId) {
-      let searchedMovieIndex = bookmarkVideos.findIndex((bookmarkVideo) => {
-        return bookmarkVideo.imdbId === movie.imdbId;
-      });
+      let searchedMovieIndex = bookmarkVideos.findIndex(bookmarkVideo => bookmarkVideo.imdbId === movie.imdbId);
       if (searchedMovieIndex === -1) {
         addBookmarkVideo(movie)
         bookmarkButton.classList.add("movie__details-bookmark--clicked");
