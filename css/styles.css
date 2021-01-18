@@ -218,14 +218,71 @@ img {
 }
 .movies__container {
 }
+.movies__details-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
 .movies__title {
   display: flex;
   align-items: center;
   margin-top: 0;
-  margin-bottom: 40px;
+  margin-bottom: 0;
   font-size: 26px;
   color: #fff;
   text-align: left;
+}
+.movies__details{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.movies__details-list{
+  display: flex;
+  align-items: center;
+}
+.movies__details-button{
+  display: block;
+  padding: 6px ;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: "Poppins", "Arial", sans-serif;
+  background-color: #0e1235;
+  color: #fff;
+  border: 2px solid transparent;
+  box-shadow: 0px 0px 10px 0px #1c2361;
+  outline: none;
+  font-weight: 500;
+  width: 36px;
+  height: 36px;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+}
+.movies__details-button--amount-up{
+  background-image: url("/img/sort-amount-up-solid.svg");
+}
+.movies__details-button--amount-down{
+  background-image: url("/img/sort-amount-down-alt-solid.svg");
+}
+.movies__details-button--alpha-up{
+  background-image: url("/img/sort-alpha-up-solid.svg");
+}
+.movies__details-button--alpha-down{
+  background-image: url("/img/sort-alpha-down-alt-solid.svg");
+}
+.movies__details-button:hover{
+  box-shadow:inset 0px 0px 10px 0px #1c2361;
+  transform: scale(1.1);
+}
+.movies__details-button--active{
+  border: 2px solid #fff;
+  box-shadow: 0px 0px 5px 0px rgb(121, 121, 121);
 }
 .movies__count{
   margin-left: 5px;
@@ -458,6 +515,44 @@ img {
 .movie__duration {
   display: block;
   margin-right: 4px;
+}
+.pagination{
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.page-item{
+  margin: 4px 4px;
+}
+.page-link{
+  display: block;
+  text-decoration: none;
+  background-color: #0c1038;
+  color: #0c1038;
+  color: #fff;
+  font-weight: bold;
+  padding: 6px 14px;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  transition: background-color 0.1s ease;
+  border: 2px solid #fff;
+}
+.page-link--active{
+  background-color: #3c46b4;
+  transform: scale(1.2);
+}
+
+.page-link:hover{
+  background-color: #2d3269;
+  border: 2px solid #fff;
+}
+.page-link--active:hover{
+  background-color: #4c57cf;
 }
 .loading{
   margin-top: 0;

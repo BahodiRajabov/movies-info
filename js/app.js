@@ -1,5 +1,3 @@
-
-// set megin top on tablet and mobile mode
 document.body.style.marginTop =
   document.querySelector(".header").offsetHeight + "px";
 
@@ -18,6 +16,9 @@ let elMoviesBookmarkButton = $_(".header__bookmark");
 let elMoviesBookmarkCount = $_(".header__bookmark-count");
 let elMovieTemplate = $_(".movie-template").content;
 
+// search details
+let elSearchDetailsList = $_(".js-movies__details-list");
+let elSearchDetailsButtons = $$_(".js-movies__details-button")
 // Modal elements
 let elModalMovie = $_(".modal")
 let elModalMovieVideo = $_(".modal__inner-video")
@@ -29,11 +30,19 @@ let elModalMovieCategoryList = $_(".js-modal-info__categories-list")
 let elModalMovieYear = $_(".js-modal-info__year")
 let elModalMovieSummary = $_(".js-modal-info__summary")
 
+// pagination item template
+
+let elPaginationItemTemplate = $_(".pagination-item-template").content;
+let elPaginationSearchList = $_(".js-pagination-search");
+let elPaginationBookmarkList = $_(".js-pagination-bookmark");
 const bookmarkVideosLocalStorage = JSON.parse(localStorage.getItem("bookmarkMovies"));
 
 let searchedMovies = [];
 let bookmarkVideos = bookmarkVideosLocalStorage || [];
+var countOfPerPage = 10;
 
+var currentPageSearch = 1;
+var currentPageBookmark = 1;
 
 let updateBookmarkCaunt = () => {
   elMoviesBookmarkCount.textContent = bookmarkVideos.length;
@@ -153,6 +162,35 @@ let toggleBookmarkMovie = (loopArray, bookmarkButton) => {
     }
   });
 };
+let resetAll = () => {
+  elSearchInput.value = "";
+  elCategorySelect.value = "all"
+  elYearInput = ""
+  elSearchDetailsButtons.forEach((childElement) => {
+    console.log(childElement);
+    childElement.classList.remove("movies__details-button--active")
+  })
+}
+
+let paginatedMovies = (arrayMovies, pageCurrent) => arrayMovies.slice((pageCurrent - 1) * countOfPerPage, (pageCurrent - 1) * countOfPerPage + countOfPerPage)
+let paginatedPages = (moviesArr) => Math.ceil(moviesArr.length / countOfPerPage);
+
+let displayPaginatedItems = (arrMovies, pageCurrent, elList = elPaginationSearchList) => {
+  let elPaginationListFragment = document.createDocumentFragment()
+  elList.innerHTML = ""
+  for (let i = 1; i <= paginatedPages(arrMovies); i++) {
+    let elPaginationClone = elPaginationItemTemplate.cloneNode(true);
+
+    if (i === Number(pageCurrent)) {
+      $_(".page-link", elPaginationClone).classList.add("page-link--active");
+    }
+
+    $_(".page-link", elPaginationClone).textContent = i;
+    $_(".page-link", elPaginationClone).dataset.page = i;
+    elPaginationListFragment.appendChild(elPaginationClone)
+  };
+  elList.appendChild(elPaginationListFragment);
+}
 
 let displayMovies = (moviesArray, displayList) => {
   displayList.innerHTML = "";
@@ -173,16 +211,36 @@ elSearchForm.addEventListener("submit", (evt) => {
   );
   elMoviesSearch.classList.remove("visually-hidden")
   elMoviesBookmarks.classList.add("visually-hidden")
-  displayMovies(searchedMovies, elMoviesSearchList);
+  displayMovies(paginatedMovies(searchedMovies, currentPageSearch), elMoviesSearchList);
+  displayPaginatedItems(searchedMovies, currentPageSearch)
   countOfResult(elMoviesCountSearch, searchedMovies)
+  resetAll()
 });
 
 //bookmark button nav bosilgandagi funcksuya
 elMoviesBookmarkButton.addEventListener("click", (evy) => {
   elMoviesSearch.classList.add("visually-hidden")
   elMoviesBookmarks.classList.remove("visually-hidden")
-  displayMovies(bookmarkVideos, elMoviesBookmarksList);
+  displayMovies(paginatedMovies(bookmarkVideos, currentPageBookmark), elMoviesBookmarksList);
+  displayPaginatedItems(bookmarkVideos, currentPageBookmark, elPaginationBookmarkList)
   countOfResult(elMoviesBookmarksCount, bookmarkVideos)
+})
+
+elPaginationSearchList.addEventListener("click", evt => {
+  if (evt.target.matches(".page-link")) {
+    currentPageSearch = evt.target.dataset.page;
+    displayMovies(paginatedMovies(searchedMovies, currentPageSearch), elMoviesSearchList);
+    displayPaginatedItems(searchedMovies, currentPageSearch)
+  }
+})
+
+elPaginationBookmarkList.addEventListener("click", evt => {
+  if (evt.target.matches(".page-link")) {
+    currentPageBookmark = evt.target.dataset.page;
+    console.log(paginatedMovies(bookmarkVideos, currentPageBookmark));
+    displayMovies(paginatedMovies(bookmarkVideos, currentPageBookmark), elMoviesBookmarksList);
+    displayPaginatedItems(bookmarkVideos, currentPageBookmark, elPaginationBookmarkList)
+  }
 })
 
 // Modal bosilganda quloq soluvchi funksiya
@@ -205,6 +263,38 @@ elMoviesBookmarksList.addEventListener("click", (evt) => {
   if (evt.target.matches(".movie__details-bookmark")) {
     toggleBookmarkMovie(bookmarkVideos, evt.target);
     displayMovies(bookmarkVideos, elMoviesBookmarksList);
-    countOfResult(elMoviesBookmarksCount, bookmarkVideos)
+    countOfResult(elMoviesBookmarksCount, bookmarkVideos);
   }
 });
+
+// Sort By name A-Z and Z-A
+elSearchDetailsList.addEventListener("click", (evt) => {
+  if (evt.target.matches(".movies__details-button")) {
+    if (evt.target.dataset.sort === "rating_desc") {
+      searchedMovies.sort((a, b) => b.imdbRating - a.imdbRating) // Rating Top to bottom
+    } if (evt.target.dataset.sort === "rating_asc") {
+      searchedMovies.sort((a, b) => a.imdbRating - b.imdbRating) // Rating bottom to Top
+    }
+    if (evt.target.dataset.sort === "az") {
+      searchedMovies.sort((a, b) => {
+        if (a.title > b.title) return 1;
+        else if (a.title < b.title) return -1;
+        return 0;
+      });
+    }
+    if (evt.target.dataset.sort === "za") {
+      searchedMovies.sort((a, b) => {
+        if (a.title > b.title) return -1;
+        else if (a.title < b.title) return 1;
+        return 0;
+      });
+    }
+    elSearchDetailsButtons.forEach((childElement) => {
+      console.log(childElement);
+      childElement.classList.remove("movies__details-button--active")
+    })
+    evt.target.classList.add("movies__details-button--active")
+    displayMovies(paginatedMovies(searchedMovies, currentPageSearch), elMoviesSearchList);
+    displayPaginatedItems(searchedMovies, currentPageSearch)
+  }
+})

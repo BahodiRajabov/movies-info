@@ -50,24 +50,30 @@
           <img class="header__bookmark-img" src="/img/search.svg" alt="Search img" width="24" height="24">
           <!-- yil, kategoriya, features, -->
       </form>
-      <!-- <select class="form-control js-search-form__sort-select" name="sort" aria-label="Sorting">
-                    <option value="rating_desc" selected>Rating (high to low)</option>
-                    <option value="rating_asc">Rating (low to high)</option>
-                    <option value="az">A-Z</option>
-                    <option value="za">Z-A</option>
-                    <option value="year_desc">Year (new to old)</option>
-                    <option value="year_asc">Year (old to new)</option>
-                  </select> -->
-      <div class="search__details">
-        <button class="search__details-button js-search__details-button-az" type="button"></button>
-      </div>
     </div>
   </section>
   <section class="movies js-movies-search visually-hidden">
     <div class="container movies__container">
-      <h2 class="movies__title">Qidiruv natijasi: <span class="movies__count js-movies__count-search"></span>
-      </h2>
+      <div class="movies__details">
+        <h2 class="movies__title">Qidiruv natijasi: <span class="movies__count js-movies__count-search"></span></h2>
+        <div class="movies__details-list js-movies__details-list">
+          <button class="movies__details-button js-movies__details-button movies__details-button--amount-up"
+            data-sort="rating_desc">
+          </button>
+          <button class="movies__details-button js-movies__details-button movies__details-button--amount-down"
+            data-sort="rating_asc">
+          </button>
+          <button class="movies__details-button js-movies__details-button movies__details-button--alpha-up"
+            data-sort="az">
+          </button>
+          <button class="movies__details-button js-movies__details-button movies__details-button--alpha-down"
+            data-sort="za">
+          </button>
+        </div>
+      </div>
       <ul class="movies__list js-movies__list-search">
+      </ul>
+      <ul class="js-pagination-search pagination">
       </ul>
     </div>
   </section>
@@ -75,6 +81,8 @@
     <div class="container movies__container">
       <h2 class="movies__title">Saralangan kinolar <span class="movies__count js-movies__count-bookmarks"></span></h2>
       <ul class="movies__list js-movies__list-bookmarks">
+      </ul>
+      <ul class="js-pagination-bookmark pagination">
       </ul>
     </div>
   </section>
@@ -124,6 +132,9 @@
         </div>
     </li>
   </template>
+  <template class="pagination-item-template">
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+  </template>
   <section class="modal">
     <div class="modal__inner">
       <iframe class="modal__inner-video" width="760" height="360" src="https://www.youtube.com/embed/sW9npZVpiMI"
@@ -157,7 +168,6 @@
             to the world.
           </p>
         </div>
-
       </div>
     </div>
   </section>
