@@ -33,6 +33,7 @@ let elModalMovieSummary = $_(".js-modal-info__summary")
 // top movies
 
 let elTopMoviesList = $_(".js-movies__list-top")
+let elTopMoviesSection = $_(".js-movies-top")
 
 // pagination item template
 let elPaginationItemTemplate = $_(".pagination-item-template").content;
@@ -170,6 +171,7 @@ let resetAll = () => {
   elSearchInput.value = "";
   elCategorySelect.value = "all"
   elYearInput = ""
+  currentPageSearch = 1
   elSearchDetailsButtons.forEach((childElement) => {
     console.log(childElement);
     childElement.classList.remove("movies__details-button--active")
@@ -184,7 +186,7 @@ let displayPaginatedItems = (arrMovies, pageCurrent, elList = elPaginationSearch
   elList.innerHTML = ""
   for (let i = 1; i <= paginatedPages(arrMovies); i++) {
     let elPaginationClone = elPaginationItemTemplate.cloneNode(true);
-
+    console.log(i, Number(pageCurrent));
     if (i === Number(pageCurrent)) {
       $_(".page-link", elPaginationClone).classList.add("page-link--active");
     }
@@ -217,12 +219,12 @@ elSearchForm.addEventListener("submit", (evt) => {
     elCategorySelect.value,
     elYearInput.value
   );
-  elMoviesSearch.classList.remove("visually-hidden")
-  elMoviesBookmarks.classList.add("visually-hidden")
+  elMoviesSearch.classList.remove("section--close")
+  // elMoviesBookmarks.classList.add("section--close")
+  resetAll()
   displayMovies(paginatedMovies(searchedMovies, currentPageSearch), elMoviesSearchList);
   displayPaginatedItems(searchedMovies, currentPageSearch)
   countOfResult(elMoviesCountSearch, searchedMovies)
-  resetAll()
 });
 
 elTopMoviesList.addEventListener("click", (evt) => {
@@ -234,13 +236,13 @@ elTopMoviesList.addEventListener("click", (evt) => {
 
 //bookmark button nav bosilgandagi funcksuya
 elMoviesBookmarkButton.addEventListener("click", (evy) => {
-  elMoviesSearch.classList.add("visually-hidden")
-  elMoviesBookmarks.classList.remove("visually-hidden")
-  elTopMoviesList.classList.remove("visually-hidden")
+  elMoviesSearch.classList.add("section--close")
+  elMoviesBookmarks.classList.remove("section--close")
+  elTopMoviesSection.classList.add("section--close")
+  currentPageBookmark = 1
   displayMovies(paginatedMovies(bookmarkVideos, currentPageBookmark), elMoviesBookmarksList);
   displayPaginatedItems(bookmarkVideos, currentPageBookmark, elPaginationBookmarkList)
   countOfResult(elMoviesBookmarksCount, bookmarkVideos)
-  // visually - hidden
 })
 
 elPaginationSearchList.addEventListener("click", evt => {

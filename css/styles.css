@@ -146,7 +146,9 @@ img {
 }
 
 /* search section  */
-
+.section--close{
+  display: none;
+}
 .search {
   padding-top: 80px;
   padding-bottom: 60px;
