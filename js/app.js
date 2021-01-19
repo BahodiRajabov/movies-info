@@ -262,7 +262,6 @@ elPaginationBookmarkList.addEventListener("click", evt => {
   if (evt.target.matches(".page-link")) {
     evt.preventDefault()
     currentPageBookmark = evt.target.dataset.page;
-    console.log(paginatedMovies(bookmarkVideos, currentPageBookmark));
     displayMovies(paginatedMovies(bookmarkVideos, currentPageBookmark), elMoviesBookmarksList);
     displayPaginatedItems(bookmarkVideos, currentPageBookmark, elPaginationBookmarkList)
   }

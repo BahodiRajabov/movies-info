@@ -39,73 +39,69 @@
       </button>
     </div>
   </header>
-  <section class="search ">
-    <div class="container search__container">
-      <h1 class="search__title">Keling brat, qaysi kinoni qidiramiz?</h1>
-      <form class="search__form js-search__form" action="#" method="get">
-        <input class="search__form-input js-search__form-input" type="text" name="q" aria-label="Input search"
-          placeholder="Qaysi kinoni qidiramiz..." autocomplete="off">
-        <select class="search__form-select js-search__form-select" name="genres" id="year">
-          <option class="search__form-select-option" value="all" selected>All category</option>
-          <!-- <option class="search__form-select-option" value="jangari">Jangari</option> -->
-        </select>
+  <main class="main">
 
-        <input class="search__form-input search__form-input--small js-search__form-year-input" type="number" name="year"
-          aria-label="Input year" placeholder="Nechanchi yil?...">
+    <section class="search ">
+      <div class="container search__container">
+        <h1 class="search__title">Keling brat, qaysi kinoni qidiramiz?</h1>
+        <form class="search__form js-search__form" action="#" method="get">
+          <input class="search__form-input js-search__form-input" type="text" name="q" aria-label="Input search"
+            placeholder="Qaysi kinoni qidiramiz..." autocomplete="off">
+          <select class="search__form-select js-search__form-select" name="genres" id="year">
+            <option class="search__form-select-option" value="all" selected>All category</option>
+            <!-- <option class="search__form-select-option" value="jangari">Jangari</option> -->
+          </select>
 
-        <button class="search__form-input-btn" type="submit" aria-label="search button">
-          <img class="header__bookmark-img" src="/img/search.svg" alt="Search img" width="24" height="24">
-          <!-- yil, kategoriya, features, -->
-      </form>
-    </div>
-  </section>
-  <section class="movies js-movies-search section--close">
-    <div class="container movies__container">
-      <div class="movies__details">
-        <h2 class="movies__title">Qidiruv natijasi: <span class="movies__count js-movies__count-search"></span></h2>
-        <div class="movies__details-list js-movies__details-list">
-          <button class="movies__details-button js-movies__details-button movies__details-button--amount-up"
-            data-sort="rating_desc">
-          </button>
-          <button class="movies__details-button js-movies__details-button movies__details-button--amount-down"
-            data-sort="rating_asc">
-          </button>
-          <button class="movies__details-button js-movies__details-button movies__details-button--alpha-up"
-            data-sort="az">
-          </button>
-          <button class="movies__details-button js-movies__details-button movies__details-button--alpha-down"
-            data-sort="za">
-          </button>
-        </div>
+          <input class="search__form-input search__form-input--small js-search__form-year-input" type="number"
+            name="year" aria-label="Input year" placeholder="Nechanchi yil?...">
+
+          <button class="search__form-input-btn" type="submit" aria-label="search button">
+            <img class="header__bookmark-img" src="/img/search.svg" alt="Search img" width="24" height="24">
+        </form>
       </div>
-      <ul class="movies__list js-movies__list-search">
-      </ul>
-      <ul class="js-pagination-search pagination">
-      </ul>
-    </div>
-  </section>
-  <section class="movies js-movies-bookmarks section--close">
-    <div class="container movies__container">
-      <h2 class="movies__title movies__title-top">Saralangan kinolar <span
-          class="movies__count js-movies__count-bookmarks"></span></h2>
-      <ul class="movies__list js-movies__list-bookmarks">
-      </ul>
-      <ul class="js-pagination-bookmark pagination">
-      </ul>
-    </div>
-  </section>
-  <section class="movies js-movies-top">
-    <div class="container movies__container">
-      <!-- <div class="team__pagination">
-        <button class="team__pagination-btn team__pagination-btn--prev" type="button" aria-label="prev button"></button>
-        <button class="team__pagination-btn team__pagination-btn--next" type="button" aria-label="next button"></button>
-      </div> -->
-      <h2 class="movies__title movies__title-top">Top Movies</h2>
-      <ul class="movies__list js-movies__list-top">
-      </ul>
-    </div>
-  </section>
-  </iframe>
+    </section>
+    <section class="movies js-movies-search section--close">
+      <div class="container movies__container">
+        <div class="movies__details">
+          <h2 class="movies__title">Qidiruv natijasi: <span class="movies__count js-movies__count-search"></span></h2>
+          <div class="movies__details-list js-movies__details-list">
+            <button class="movies__details-button js-movies__details-button movies__details-button--amount-up"
+              data-sort="rating_desc">
+            </button>
+            <button class="movies__details-button js-movies__details-button movies__details-button--amount-down"
+              data-sort="rating_asc">
+            </button>
+            <button class="movies__details-button js-movies__details-button movies__details-button--alpha-up"
+              data-sort="az">
+            </button>
+            <button class="movies__details-button js-movies__details-button movies__details-button--alpha-down"
+              data-sort="za">
+            </button>
+          </div>
+        </div>
+        <ul class="movies__list js-movies__list-search">
+        </ul>
+        <ul class="js-pagination-search pagination">
+        </ul>
+      </div>
+    </section>
+    <section class="movies js-movies-bookmarks section--close">
+      <div class="container movies__container">
+        <h2 class="movies__title movies__title-top">Saralangan kinolar <span
+            class="movies__count js-movies__count-bookmarks"></span></h2>
+        <ul class="movies__list js-movies__list-bookmarks">
+        </ul>
+        <ul class="js-pagination-bookmark pagination">
+        </ul>
+      </div>
+    </section>
+    <section class="movies js-movies-top">
+      <div class="container movies__container">
+        <h2 class="movies__title movies__title-top">Top Movies</h2>
+        <ul class="movies__list js-movies__list-top"></ul>
+      </div>
+    </section>
+  </main>
   <footer class="footer">
     <div class="container footer__container">
       <div class="footer__info">
@@ -214,7 +210,8 @@
           </div>
           <p class="modal-info__summary js-modal-info__summary">
             Patton Oswald, despite a personal tragedy, produces his best standup yet. Focusing on the tribulations of
-            the Trump era and life after the loss of a loved one, Patton Oswald continues his journey to contribute joy
+            the Trump era and life after the loss of a loved one, Patton Oswald continues his journey to contribute
+            joy
             to the world.
           </p>
         </div>
