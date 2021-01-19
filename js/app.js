@@ -179,6 +179,7 @@ let resetAll = () => {
 }
 
 let paginatedMovies = (arrayMovies, pageCurrent) => arrayMovies.slice((pageCurrent - 1) * countOfPerPage, (pageCurrent - 1) * countOfPerPage + countOfPerPage)
+
 let paginatedPages = (moviesArr) => Math.ceil(moviesArr.length / countOfPerPage);
 
 let displayPaginatedItems = (arrMovies, pageCurrent, elList = elPaginationSearchList) => {
@@ -206,10 +207,9 @@ let displayMovies = (moviesArray, displayList) => {
   })
   displayList.appendChild(elMovieListFragment)
 }
+
 const topMovies = movies.slice().sort((a, b) => b.imdbRating - a.imdbRating);
 displayMovies(topMovies.slice(0, 20), elTopMoviesList)
-
-
 
 // Events
 elSearchForm.addEventListener("submit", (evt) => {
@@ -247,6 +247,7 @@ elMoviesBookmarkButton.addEventListener("click", (evy) => {
 
 elPaginationSearchList.addEventListener("click", evt => {
   if (evt.target.matches(".page-link")) {
+    evt.preventDefault()
     currentPageSearch = evt.target.dataset.page;
     displayMovies(paginatedMovies(searchedMovies, currentPageSearch), elMoviesSearchList);
     displayPaginatedItems(searchedMovies, currentPageSearch)
@@ -255,6 +256,7 @@ elPaginationSearchList.addEventListener("click", evt => {
 
 elPaginationBookmarkList.addEventListener("click", evt => {
   if (evt.target.matches(".page-link")) {
+    evt.preventDefault()
     currentPageBookmark = evt.target.dataset.page;
     console.log(paginatedMovies(bookmarkVideos, currentPageBookmark));
     displayMovies(paginatedMovies(bookmarkVideos, currentPageBookmark), elMoviesBookmarksList);
