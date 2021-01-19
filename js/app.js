@@ -30,8 +30,11 @@ let elModalMovieCategoryList = $_(".js-modal-info__categories-list")
 let elModalMovieYear = $_(".js-modal-info__year")
 let elModalMovieSummary = $_(".js-modal-info__summary")
 
-// pagination item template
+// top movies
 
+let elTopMoviesList = $_(".js-movies__list-top")
+
+// pagination item template
 let elPaginationItemTemplate = $_(".pagination-item-template").content;
 let elPaginationSearchList = $_(".js-pagination-search");
 let elPaginationBookmarkList = $_(".js-pagination-bookmark");
@@ -120,7 +123,7 @@ let openModalMovie = (searchingArray, movieCliked) => {
 }
 
 const topMovie = 8;
-let createCardMovie = (movie) => {
+let createCardMovie = (movie, arrDisplay = searchedMovies) => {
   let elMovieTemplateClone = elMovieTemplate.cloneNode(true);
   let movieLink = $_(".movie__link", elMovieTemplateClone)
   bookmarkVideos.forEach((bookmarkVideo) => {
@@ -141,9 +144,10 @@ let createCardMovie = (movie) => {
   $_(".movie__title", elMovieTemplateClone).textContent = movie.title;
   movieLink.dataset.videoId = movie.imdbId;
   movieLink.href = `/${movie.imdbId}`;
+
   movieLink.addEventListener("click", (evt) => {
     evt.preventDefault()
-    openModalMovie(searchedMovies, movieLink);
+    openModalMovie(arrDisplay, movieLink);
   });
 
   return elMovieTemplateClone;
@@ -196,10 +200,14 @@ let displayMovies = (moviesArray, displayList) => {
   displayList.innerHTML = "";
   let elMovieListFragment = document.createDocumentFragment();
   moviesArray.forEach((movie) => {
-    elMovieListFragment.appendChild(createCardMovie(movie))
+    elMovieListFragment.appendChild(createCardMovie(movie, moviesArray))
   })
   displayList.appendChild(elMovieListFragment)
 }
+const topMovies = movies.slice().sort((a, b) => b.imdbRating - a.imdbRating);
+displayMovies(topMovies.slice(0, 20), elTopMoviesList)
+
+
 
 // Events
 elSearchForm.addEventListener("submit", (evt) => {
@@ -217,13 +225,22 @@ elSearchForm.addEventListener("submit", (evt) => {
   resetAll()
 });
 
+elTopMoviesList.addEventListener("click", (evt) => {
+  if (evt.target.matches(".movie__details-bookmark")) {
+    toggleBookmarkMovie(topMovies, evt.target);
+  }
+})
+
+
 //bookmark button nav bosilgandagi funcksuya
 elMoviesBookmarkButton.addEventListener("click", (evy) => {
   elMoviesSearch.classList.add("visually-hidden")
   elMoviesBookmarks.classList.remove("visually-hidden")
+  elTopMoviesList.classList.remove("visually-hidden")
   displayMovies(paginatedMovies(bookmarkVideos, currentPageBookmark), elMoviesBookmarksList);
   displayPaginatedItems(bookmarkVideos, currentPageBookmark, elPaginationBookmarkList)
   countOfResult(elMoviesBookmarksCount, bookmarkVideos)
+  // visually - hidden
 })
 
 elPaginationSearchList.addEventListener("click", evt => {

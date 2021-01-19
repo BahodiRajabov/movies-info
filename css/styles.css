@@ -554,6 +554,9 @@ img {
 .page-link--active:hover{
   background-color: #4c57cf;
 }
+.movies__title-top{
+  margin-bottom: 20px;
+}
 .loading{
   margin-top: 0;
   margin-bottom: 0;
