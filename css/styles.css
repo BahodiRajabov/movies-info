@@ -55,7 +55,24 @@ img {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
+.wrapper-loading{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 1000;
+}
+.wrapper-loading--close{
+  display: none;
+}
+.loading{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
 .container {
   max-width: 1140px;
   padding-left: 20px;
