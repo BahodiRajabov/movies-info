@@ -1,9 +1,8 @@
 document.body.style.marginTop =
   document.querySelector(".header").offsetHeight + "px";
 
-let elLoadingBox = $_(".wrapper-loading")
 window.addEventListener("load", (evt) => {
-  elLoadingBox.classList.add("wrapper-loading--close")
+  document.body.classList.remove("loading")
 })
 let elSearchForm = $_(".js-search__form");
 let elSearchInput = $_(".js-search__form-input");
