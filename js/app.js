@@ -47,7 +47,7 @@ const bookmarkVideosLocalStorage = JSON.parse(localStorage.getItem("bookmarkMovi
 
 let searchedMovies = [];
 let bookmarkVideos = bookmarkVideosLocalStorage || [];
-var countOfPerPage = 10;
+var countOfPerPage = 20;
 
 var currentPageSearch = 1;
 var currentPageBookmark = 1;
@@ -94,8 +94,6 @@ movies.forEach((movie) => {
 
 renderCategoryOptions(optionsArray);
 
-
-
 let searchMovie = (text, category, year) => {
   let textReg = new RegExp(text, "i");
   return movies.filter((movie) => {
@@ -130,7 +128,8 @@ let openModalMovie = (searchingArray, movieCliked) => {
 const topMovie = 8;
 let createCardMovie = (movie, arrDisplay = searchedMovies) => {
   let elMovieTemplateClone = elMovieTemplate.cloneNode(true);
-  let movieLink = $_(".movie__link", elMovieTemplateClone)
+  let movieLink = $_(".movie__link", elMovieTemplateClone);
+
   bookmarkVideos.forEach((bookmarkVideo) => {
     if (bookmarkVideo.imdbId === movie.imdbId) {
       $_(".movie__details-bookmark", elMovieTemplateClone).classList.add(
@@ -138,6 +137,7 @@ let createCardMovie = (movie, arrDisplay = searchedMovies) => {
       );
     }
   });
+
   $_(".movie__details-bookmark", elMovieTemplateClone).dataset.videoId = movie.imdbId;
   $_(".movie__img", elMovieTemplateClone).src = movie.smallImageUrl;
   $_(".movie__status", elMovieTemplateClone).textContent = movie.imdbRating >= topMovie ? "Top film" : "oddiy";
@@ -213,7 +213,7 @@ let displayMovies = (moviesArray, displayList) => {
 }
 
 const topMovies = movies.slice().sort((a, b) => b.imdbRating - a.imdbRating);
-displayMovies(topMovies.slice(0, 20), elTopMoviesList)
+displayMovies(topMovies.slice(0, 20), elTopMoviesList);
 
 // Events
 elSearchForm.addEventListener("submit", (evt) => {
