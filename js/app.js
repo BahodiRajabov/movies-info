@@ -1,9 +1,9 @@
 document.body.style.marginTop =
   document.querySelector(".header").offsetHeight + "px";
 
-window.addEventListener("load", (evt) => {
-  document.body.classList.remove("loading")
-})
+// window.addEventListener("load", (evt) => {
+//   document.body.classList.remove("loading")
+// })
 let elSearchForm = $_(".js-search__form");
 let elSearchInput = $_(".js-search__form-input");
 let elCategorySelect = $_(".js-search__form-select");
@@ -50,6 +50,7 @@ var countOfPerPage = 20;
 
 var currentPageSearch = 1;
 var currentPageBookmark = 1;
+var inputValue = "";
 
 let updateBookmarkCaunt = () => {
   elMoviesBookmarkCount.textContent = bookmarkVideos.length;
@@ -95,6 +96,7 @@ renderCategoryOptions(optionsArray);
 
 let searchMovie = (text, category, year) => {
   let textReg = new RegExp(text, "i");
+  inputValue = textReg;
   return movies.filter((movie) => {
     let matchCategory = category === "all" || movie.categories.includes(category)
     let matchYear = year ? movie.movieYear === Number(year) : true;
@@ -128,6 +130,7 @@ const topMovie = 8;
 let createCardMovie = (movie, arrDisplay = searchedMovies) => {
   let elMovieTemplateClone = elMovieTemplate.cloneNode(true);
   let movieLink = $_(".movie__link", elMovieTemplateClone);
+  let movieTitle = $_(".movie__title", elMovieTemplateClone)
 
   bookmarkVideos.forEach((bookmarkVideo) => {
     if (bookmarkVideo.imdbId === movie.imdbId) {
@@ -145,7 +148,11 @@ let createCardMovie = (movie, arrDisplay = searchedMovies) => {
   $_(".movie__date", elMovieTemplateClone).textContent = movie.movieYear;
   $_(".movie__language", elMovieTemplateClone).textContent = movie.language;
   $_(".movie__duration", elMovieTemplateClone).textContent = movie.runtime;
-  $_(".movie__title", elMovieTemplateClone).textContent = movie.title;
+  movieTitle.innerHTML = movie.title;
+
+  // movieTitle.innerHTML.replace(inputValue, `<mark>${inputValue.source}</mark>`);
+  // // console.log(movieTitle.innerHTML, movieTitle.innerHTML.replace(inputValue, `<mark>${inputValue.source}</mark>`), inputValue.source);
+  // // inputValue.source !== "(?:)" &&
   movieLink.dataset.videoId = movie.imdbId;
   movieLink.href = `/${movie.imdbId}`;
 
@@ -176,7 +183,6 @@ let resetAll = () => {
   elYearInput = ""
   currentPageSearch = 1
   elSearchDetailsButtons.forEach((childElement) => {
-    console.log(childElement);
     childElement.classList.remove("movies__details-button--active")
   })
 }
